@@ -1,9 +1,12 @@
 import styled from "styled-components";
+import { useState } from "react";
+import Settings from "./settings";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import setting from "./assets/Shape 2.svg";
 
 export default function Timer() {
+  const [settings, setSettings] = useState(false)
   return (
     <Main>
       <CountdownTimercard>
@@ -30,7 +33,8 @@ export default function Timer() {
           <Pause>PAUSE</Pause>
         </CountDownTimer>
       </CountdownTimercard>
-      <Setting src={setting} />
+      <Setting onClick={() => {setSettings(!settings)}} src={setting} />
+      {settings? <Settings/>: null}
     </Main>
   );
 }
