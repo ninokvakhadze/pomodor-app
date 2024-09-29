@@ -2,13 +2,22 @@ import styled from "styled-components";
 import cancel from "./assets/Combined Shape.svg";
 import choosen from "./assets/Path 2.svg";
 
-export default function Settings() {
+interface SettingsTypes {
+  setSettings: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Settings: React.FC<SettingsTypes> = ({ setSettings }) => {
   return (
     <>
       <MainDiv>
         <SettingsHead>
           <Title>Settings</Title>
-          <img src={cancel} />
+          <img
+            onClick={() => {
+              setSettings(false);
+            }}
+            src={cancel}
+          />
         </SettingsHead>
         <TimesDiv>
           <SecondTitle>TIME (MINUTES)</SecondTitle>
@@ -37,7 +46,7 @@ export default function Settings() {
             <FontName>Aa</FontName>
           </FontDiv>
         </FontsDiv>
-        <SecondTitle>Color</SecondTitle>
+        <SecondTitle>COLOR</SecondTitle>
         <ColorsDiv>
           <Color>
             <img src={choosen} />
@@ -53,14 +62,16 @@ export default function Settings() {
       </MainDiv>
     </>
   );
-}
+};
+export default Settings;
 
 const MainDiv = styled.div`
   background-color: white;
-  width: 100%;
-  /* height: 100%; */
+  width: 90%;
+  height: 90%;
+  margin: auto;
   position: absolute;
-  top: 0;
+  top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -69,20 +80,28 @@ const SettingsHead = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
   padding: 20px;
 `;
 const Title = styled.h2`
-font-family: Kumbh Sans;
-font-size: 20px;
-font-weight: 700;
-line-height: 24.8px;
-text-align: left;
+  font-family: "Kumbh Sans", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24.8px;
+  text-align: left;
 `;
-const SecondTitle = styled.h3``;
+const SecondTitle = styled.h3`
+  font-family: "Kumbh Sans", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 13.64px;
+  letter-spacing: 4.230769157409668px;
+  text-align: center;
+  margin-top: 5px;
+`;
 const TimesDiv = styled.div`
   padding-bottom: 30px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -96,16 +115,34 @@ const TimeTypeDiv = styled.div`
   width: 100%;
   justify-content: space-between;
 `;
-const TimeType = styled.p``;
+const TimeType = styled.p`
+  font-family: "Kumbh Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 14.88px;
+  text-align: left;
+  opacity: 0.4;
+`;
 const TimeTypeInput = styled.input`
   width: 140px;
   height: 40px;
+  font-family: "Kumbh Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 17.36px;
+  text-align: left;
+  padding: 5px;
+  border: 2px solid #1E213F40;
+  background-color: #eff1fa;
+  border-radius: 10px;
 `;
 const FontsDiv = styled.div`
   padding: 20px;
   display: flex;
   justify-content: center;
   gap: 30px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+  width: 100%;
 `;
 const FontDiv = styled.div`
   padding: 10px;
@@ -114,6 +151,7 @@ const FontDiv = styled.div`
 `;
 const FontName = styled.p`
   color: #ffff;
+  font-family: "Kumbh Sans", sans-serif;
 `;
 const ColorsDiv = styled.div`
   padding: 20px;
@@ -131,15 +169,14 @@ const Color = styled.div`
   align-items: center;
 `;
 const Button = styled.button`
-  margin: 20px;
-  margin-bottom: -20px;
+  padding: 10px;
   width: 140px;
   height: 53px;
   border-radius: 25px;
   border: none;
   background-color: #f87070;
   color: white;
-  font-family: Kumbh Sans;
+  font-family: "Kumbh Sans", sans-serif;
   font-size: 16px;
   font-weight: 700;
   line-height: 19.84px;

@@ -1,18 +1,42 @@
 import styled from "styled-components";
-import { useState } from "react";
 import Settings from "./settings";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import setting from "./assets/Shape 2.svg";
+import { useState, useEffect } from "react";
 
-export default function Timer() {
-  const [settings, setSettings] = useState(false)
+interface TimerTypes {
+  setTimer: React.Dispatch<React.SetStateAction<number>>;
+  timer: number;
+}
+
+const Timer: React.FC<TimerTypes> = ({ setTimer, timer }) => {
+  const [settings, setSettings] = useState(false);
+
+  useEffect(() => {
+    // Set up the interval
+    const interval = setInterval(() => {
+      setTimer((prevTimer) => prevTimer - 1); // Decrement the timer every second
+    }, 1000);
+    
+    // Cleanup: clear the interval when the component unmounts or the effect re-runs
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if(timer == 0 ){
+      clearInterval(timer);
+    }
+    console.log(timer)
+
+  }, [timer]);
+
   return (
     <Main>
       <CountdownTimercard>
         <CountDownTimer>
           <CircularProgressbar
-            text={"sbsb"}
+            text={timer}
             value={100}
             strokeWidth={4}
             styles={{
@@ -33,18 +57,24 @@ export default function Timer() {
           <Pause>PAUSE</Pause>
         </CountDownTimer>
       </CountdownTimercard>
-      <Setting onClick={() => {setSettings(!settings)}} src={setting} />
-      {settings? <Settings/>: null}
+      <Setting
+        onClick={() => {
+          setSettings(!settings);
+        }}
+        src={setting}
+      />
+      {settings ? <Settings setSettings={setSettings} /> : null}
     </Main>
   );
-}
+};
 
+export default Timer;
 
 const Main = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 const CountdownTimercard = styled.div`
   width: 300px;
   height: 300px;
@@ -79,5 +109,6 @@ const Pause = styled.p`
 `;
 
 const Setting = styled.img`
-margin-top: 30px;
-margin-bottom: 30px;`
+  margin-top: 30px;
+  margin-bottom: 30px;
+`;

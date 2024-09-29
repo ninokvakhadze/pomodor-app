@@ -1,13 +1,16 @@
 import { createGlobalStyle } from "styled-components";
+import {useState, } from "react"
 import ChooseTimer  from "./chooseTimer";
 import Timer from "./Timer";
 
 function App() {
+  const [timer, setTimer] = useState<number>(5)
+  
   return (
     <>
       <GlobalStyles />
       <ChooseTimer />
-      <Timer/>
+      <Timer setTimer={setTimer} timer={timer}/>
     </>
   );
 }
