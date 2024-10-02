@@ -8,36 +8,44 @@ import { useState, useEffect } from "react";
 interface TimerTypes {
   setTimer: React.Dispatch<React.SetStateAction<number>>;
   timer: number;
+  start: boolean;
+  setStart: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Timer: React.FC<TimerTypes> = ({ setTimer, timer }) => {
+const Timer: React.FC<TimerTypes> = ({ setTimer, timer, start, setStart }) => {
   const [settings, setSettings] = useState(false);
+  const [progress, setProgress] = useState<number>(100);
+  const [defaultTimer, setDefault] = useState(timer);
+  
+
 
   useEffect(() => {
-    // Set up the interval
-    const interval = setInterval(() => {
-      setTimer((prevTimer) => prevTimer - 1); // Decrement the timer every second
-    }, 1000);
-    
-    // Cleanup: clear the interval when the component unmounts or the effect re-runs
-    return () => clearInterval(interval);
-  }, []);
+    if (timer > 0 && start) {
+      const interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+        const remainingTimeRatio = timer / defaultTimer;
+        const calculatedProgress = remainingTimeRatio * 100;
+        setProgress(calculatedProgress);
+      }, 1000);
 
-  useEffect(() => {
-    if(timer == 0 ){
-      clearInterval(timer);
+      return () => clearInterval(interval);
     }
-    console.log(timer)
+    setStart(false);
+  }, [timer, start]);
 
-  }, [timer]);
+  const formatData = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const remainingSeconds = time % 60;
+    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+  };
 
   return (
     <Main>
       <CountdownTimercard>
         <CountDownTimer>
           <CircularProgressbar
-            text={timer}
-            value={100}
+            text={formatData(timer).toString()}
+            value={progress}
             strokeWidth={4}
             styles={{
               path: { stroke: "red" },
@@ -54,7 +62,9 @@ const Timer: React.FC<TimerTypes> = ({ setTimer, timer }) => {
               },
             }}
           />
-          <Pause>PAUSE</Pause>
+          <Pause onClick={() => setStart(!start)}>
+            {start ? "PAUSE" : "START"}
+          </Pause>
         </CountDownTimer>
       </CountdownTimercard>
       <Setting

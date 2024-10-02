@@ -1,23 +1,47 @@
 import styled from "styled-components";
 
-export default function ChooseTimer() {
+interface TimerTypes {
+  setTimer: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const ChooseTimer: React.FC<TimerTypes> = ({ setTimer }) => {
   return (
     <HeadMain>
       <Title>Pomodoro</Title>
       <SetTimeDiv>
         <TimeTitleDiv>
-          <TimeTitle>pomodoro</TimeTitle>
+          <TimeTitle
+            onClick={() => {
+              setTimer(1500);
+            }}
+          >
+            pomodoro
+          </TimeTitle>
         </TimeTitleDiv>
         <TimeTitleDiv>
-          <TimeTitle>short break</TimeTitle>
+          <TimeTitle
+            onClick={() => {
+              setTimer(5);
+            }}
+          >
+            short break
+          </TimeTitle>
         </TimeTitleDiv>
         <TimeTitleDiv>
-          <TimeTitle>long break</TimeTitle>
+          <TimeTitle
+            onClick={() => {
+              setTimer(600);
+            }}
+          >
+            long break
+          </TimeTitle>
         </TimeTitleDiv>
       </SetTimeDiv>
     </HeadMain>
   );
-}
+};
+
+export default ChooseTimer;
 
 const HeadMain = styled.div``;
 const Title = styled.h1`

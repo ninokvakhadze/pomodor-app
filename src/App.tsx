@@ -4,13 +4,14 @@ import ChooseTimer  from "./chooseTimer";
 import Timer from "./Timer";
 
 function App() {
-  const [timer, setTimer] = useState<number>(5)
+  const [timer, setTimer] = useState<number>(1500)
+  const [start, setStart] = useState<boolean>(false)
   
   return (
     <>
       <GlobalStyles />
-      <ChooseTimer />
-      <Timer setTimer={setTimer} timer={timer}/>
+      <ChooseTimer setTimer={setTimer}/>
+      <Timer setTimer={setTimer} timer={timer} start={start} setStart={setStart}/>
     </>
   );
 }
