@@ -1,17 +1,72 @@
 import { createGlobalStyle } from "styled-components";
-import {useState, } from "react"
-import ChooseTimer  from "./chooseTimer";
+import { useState, useEffect } from "react";
+import ChooseTimer from "./chooseTimer";
 import Timer from "./Timer";
+import setting from "./assets/Shape 2.svg";
+import Settings from "./settings";
+import styled from "styled-components";
 
 function App() {
-  const [timer, setTimer] = useState<number>(1500)
-  const [start, setStart] = useState<boolean>(false)
-  
+  const [settings, setSettings] = useState(false);
+  const [timer, setTimer] = useState<number>(25);
+  const [start, setStart] = useState<boolean>(false);
+  const [defaultTimer, setDefault] = useState(25);
+  const [progress, setProgress] = useState<number>(100);
+  const [pomodoro, setPomodoro] = useState<number>(25);
+  const [shortBreak, setShortBreak] = useState<number>(5);
+  const [longBreak, setLongBreak] = useState<number>(10);
+  const [color, setColor] = useState<string>("#F87070");
+  const [font, setFont] = useState<string>(`"Kumbh Sans", sans-serif`);
+
+
+
   return (
     <>
       <GlobalStyles />
-      <ChooseTimer setTimer={setTimer}/>
-      <Timer setTimer={setTimer} timer={timer} start={start} setStart={setStart}/>
+      {settings ? null : (
+        <>
+          <ChooseTimer
+            setTimer={setTimer}
+            setDefault={setDefault}
+            setProgress={setProgress}
+            setStart={setStart} font={font}
+            pomodoro={pomodoro}
+            shortBreak={shortBreak}
+            longBreak={longBreak}
+          />
+          <Timer
+            setProgress={setProgress}
+            progress={progress}
+            setTimer={setTimer}
+            timer={timer}
+            start={start}
+            setStart={setStart}
+            defaultTimer={defaultTimer}
+            color={color}
+          />
+          <Setting
+            onClick={() => {
+              setSettings(!settings);
+            }}
+            src={setting}
+          />
+        </>
+      )}
+      {settings ? (
+        <Settings
+          setSettings={setSettings}
+          setPomodoro={setPomodoro}
+          setShortBreak={setShortBreak}
+          setLongBreak={setLongBreak}
+          setFont={setFont}
+          setColor={setColor}
+          pomodoro={pomodoro}
+          shortBreak={shortBreak}
+          longBreak={longBreak}
+          color={color}
+          font={font}
+        />
+      ) : null}
     </>
   );
 }
@@ -29,9 +84,17 @@ const GlobalStyles = createGlobalStyle`
   }
   body{
     background-color: #1E213F;
-    display: flex;
+  }
+
+  #root{
+     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 30px;
+    margin-top: 10px;
   }
   `;
+
+const Setting = styled.img`
+  margin-top: 30px;
+  margin-bottom: 30px;
+`;

@@ -2,26 +2,41 @@ import styled from "styled-components";
 
 interface TimerTypes {
   setTimer: React.Dispatch<React.SetStateAction<number>>;
+  setDefault: React.Dispatch<React.SetStateAction<number>>;
+  setProgress: React.Dispatch<React.SetStateAction<number>>;
+  pomodoro: number,
+  shortBreak: number,
+  longBreak: number,
+  setStart: React.Dispatch<React.SetStateAction<boolean>>;
+  font: string
 }
 
-const ChooseTimer: React.FC<TimerTypes> = ({ setTimer }) => {
+const ChooseTimer: React.FC<TimerTypes> = ({ setTimer, setDefault , setProgress, setStart, font, pomodoro, shortBreak, longBreak}) => {
   return (
     <HeadMain>
-      <Title>Pomodoro</Title>
+      <Title font={font}>Pomodoro</Title>
       <SetTimeDiv>
         <TimeTitleDiv>
           <TimeTitle
             onClick={() => {
-              setTimer(1500);
+              setTimer(pomodoro);
+              setDefault(pomodoro);
+              setProgress(100)
+              setStart(false)
             }}
+            font={font}
           >
             pomodoro
           </TimeTitle>
         </TimeTitleDiv>
         <TimeTitleDiv>
           <TimeTitle
+          font={font}
             onClick={() => {
-              setTimer(5);
+              setTimer(shortBreak);
+              setDefault(shortBreak);
+              setProgress(100);
+              setStart(false)
             }}
           >
             short break
@@ -29,8 +44,12 @@ const ChooseTimer: React.FC<TimerTypes> = ({ setTimer }) => {
         </TimeTitleDiv>
         <TimeTitleDiv>
           <TimeTitle
+          font={font}
             onClick={() => {
-              setTimer(600);
+              setTimer(longBreak);
+              setDefault(longBreak);
+              setProgress(100);
+              setStart(false);
             }}
           >
             long break
@@ -44,8 +63,8 @@ const ChooseTimer: React.FC<TimerTypes> = ({ setTimer }) => {
 export default ChooseTimer;
 
 const HeadMain = styled.div``;
-const Title = styled.h1`
-  font-family: "Kumbh Sans", sans-serif;
+const Title = styled.h1<{ font: string }>`
+  font-family: ${(props) => props.font};
   font-size: 24px;
   font-weight: 700;
   line-height: 29.77px;
@@ -65,8 +84,8 @@ const TimeTitleDiv = styled.div`
   padding: 10px;
   border-radius: 20px;
 `;
-const TimeTitle = styled.h2`
-  font-family: "Kumbh Sans", sans-serif;
+const TimeTitle = styled.h2<{ font: string }>`
+  font-family: ${(props) => props.font};
   font-size: 12px;
   font-weight: 700;
   line-height: 14.88px;

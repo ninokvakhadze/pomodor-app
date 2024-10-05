@@ -1,29 +1,36 @@
 import styled from "styled-components";
-import Settings from "./settings";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import setting from "./assets/Shape 2.svg";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 interface TimerTypes {
   setTimer: React.Dispatch<React.SetStateAction<number>>;
   timer: number;
   start: boolean;
   setStart: React.Dispatch<React.SetStateAction<boolean>>;
+  defaultTimer: number;
+  setProgress: React.Dispatch<React.SetStateAction<number>>;
+  progress: number;
+  color: string;
 }
 
-const Timer: React.FC<TimerTypes> = ({ setTimer, timer, start, setStart }) => {
-  const [settings, setSettings] = useState(false);
-  const [progress, setProgress] = useState<number>(100);
-  const [defaultTimer, setDefault] = useState(timer);
-  
+const Timer: React.FC<TimerTypes> = ({
+  setTimer,
+  timer,
+  start,
+  setStart,
+  defaultTimer,
+  setProgress,
+  progress,
+  color,
+}) => {
 
 
   useEffect(() => {
     if (timer > 0 && start) {
       const interval = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
-        const remainingTimeRatio = timer / defaultTimer;
+        const remainingTimeRatio = (timer - 1) / defaultTimer;
         const calculatedProgress = remainingTimeRatio * 100;
         setProgress(calculatedProgress);
       }, 1000);
@@ -48,7 +55,7 @@ const Timer: React.FC<TimerTypes> = ({ setTimer, timer, start, setStart }) => {
             value={progress}
             strokeWidth={4}
             styles={{
-              path: { stroke: "red" },
+              path: { stroke: color },
               trail: { stroke: "#161932" },
               text: {
                 fontSize: "33px",
@@ -67,13 +74,6 @@ const Timer: React.FC<TimerTypes> = ({ setTimer, timer, start, setStart }) => {
           </Pause>
         </CountDownTimer>
       </CountdownTimercard>
-      <Setting
-        onClick={() => {
-          setSettings(!settings);
-        }}
-        src={setting}
-      />
-      {settings ? <Settings setSettings={setSettings} /> : null}
     </Main>
   );
 };
@@ -102,7 +102,6 @@ const CountdownTimercard = styled.div`
 const CountDownTimer = styled.div``;
 
 const Pause = styled.p`
-  /* font-family: ${(props) => props.fontapply}; */
   position: absolute;
   top: 200px;
   left: 100px;
@@ -113,12 +112,4 @@ const Pause = styled.p`
   text-align: left;
   color: #d7e0ff;
   cursor: pointer;
-  &:hover {
-    /* color: ${(props) => props.changecolor}; */
-  }
-`;
-
-const Setting = styled.img`
-  margin-top: 30px;
-  margin-bottom: 30px;
 `;
