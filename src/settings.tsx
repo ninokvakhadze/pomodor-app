@@ -69,7 +69,7 @@ const Settings: React.FC<SettingsTypes> = ({
             min="0"
             value={applyPomodoro}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              setApplyPomodoro(event.target.value)
+              setApplyPomodoro(Number(event.target.value))
             }
           />
         </TimeTypeDiv>
@@ -81,7 +81,7 @@ const Settings: React.FC<SettingsTypes> = ({
             min="0"
             value={applyShortBreak}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              setApplyShortBreak(event.target.value)
+              setApplyShortBreak(Number(event.target.value))
             }
           />
         </TimeTypeDiv>
@@ -93,7 +93,7 @@ const Settings: React.FC<SettingsTypes> = ({
             min="0"
             value={applyLongBreak}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              setApplyLongBreak(event.target.value)
+              setApplyLongBreak(Number(event.target.value))
             }
           />
         </TimeTypeDiv>
