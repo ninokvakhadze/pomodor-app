@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import ChooseTimer from "./chooseTimer";
 import Timer from "./Timer";
 import setting from "./assets/Shape 2.svg";
